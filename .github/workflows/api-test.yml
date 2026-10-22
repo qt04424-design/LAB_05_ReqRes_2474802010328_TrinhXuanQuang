@@ -1,13 +1,15 @@
-name: API Test (Newman CI)
+name: ReqRes API Testing
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   api-test:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -17,23 +19,20 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install Newman and htmlextra reporter
+      - name: Install Newman
         run: npm install -g newman newman-reporter-htmlextra
 
-      - name: Run API tests (Data-Driven with users.csv)
-        env:
-          REQRES_API_KEY: ${{ secrets.REQRES_API_KEY }}
+      - name: Run API Tests
         run: |
-          newman run TrinhXuanQuang_2474802010328_ReqRes.postman_collection.json \
-            -e 2474802010328_TrinhXuanQuang_ReqRes.postman_environment.json \
-            -d users.csv \
-            --env-var "apiKey=$REQRES_API_KEY" \
+          newman run ReqRes.postman_collection.json \
+            -e ReqRes_Environment.json \
             --reporters cli,htmlextra \
             --reporter-htmlextra-export report.html
 
-      - name: Upload report.html
+      - name: Upload HTML Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: newman-report
+          name: ReqRes-API-Test-Report
           path: report.html
+          if-no-files-found: ignore
