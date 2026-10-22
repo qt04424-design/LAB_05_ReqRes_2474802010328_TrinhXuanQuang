@@ -1,0 +1,34 @@
+{
+	"id": "6302b972-3827-443b-a72f-bec06e1310de",
+	"name": "2474802010328_TrinhXuanQuang_ReqRes",
+	"values": [
+		{
+			"key": "baseUrl",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "userID",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "api-key",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "userId",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"color": null,
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2026-10-22T10:34:57.783Z",
+	"_postman_exported_using": "Postman/12.33.3-261022-0328"
+}
