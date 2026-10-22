@@ -1,0 +1,420 @@
+{
+  "info": {
+    "name": "2474802010328_TrinhXuanQuang_ReqRes",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Lab 05 - ReqRes API testing (Positive_Cases / Negative_Cases)"
+  },
+  "item": [
+    {
+      "name": "Positive_Cases",
+      "item": [
+        {
+          "name": "POST - Register User / Get Auth Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response co token\", function () {",
+                  "    pm.expect(pm.response.json()).to.have.property(\"token\");",
+                  "});",
+                  "",
+                  "pm.environment.set(\"userToken\", pm.response.json().token);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"eve.holt@reqres.in\",\n  \"password\": \"pistol\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST - Create User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const expName = pm.iterationData.get(\"name\");",
+                  "const expJob  = pm.iterationData.get(\"job\");",
+                  "",
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"name khop voi du lieu CSV\", function () {",
+                  "    pm.expect(pm.response.json().name).to.eql(expName);",
+                  "});",
+                  "",
+                  "pm.test(\"job khop voi du lieu CSV\", function () {",
+                  "    pm.expect(pm.response.json().job).to.eql(expJob);",
+                  "});",
+                  "",
+                  "pm.environment.set(\"userId\", pm.response.json().id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"{{name}}\",\n  \"job\": \"{{job}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET - Single User",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// ReqRes la sandbox gia lap: user tao qua POST khong duoc luu that,",
+                  "// nen dung user co san id = 2 de kiem tra cau truc du lieu tra ve.",
+                  "pm.environment.set(\"userId\", 2);"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"data.id bang 2\", function () {",
+                  "    pm.expect(pm.response.json().data.id).to.eql(2);",
+                  "});",
+                  "",
+                  "pm.test(\"data.email co duoi @reqres.in\", function () {",
+                  "    pm.expect(pm.response.json().data.email).to.include(\"@reqres.in\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{userId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "{{userId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT - Update User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"updatedAt ton tai trong response body\", function () {",
+                  "    pm.expect(pm.response.json()).to.have.property(\"updatedAt\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{userId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "{{userId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"An Nguyen Updated\",\n  \"job\": \"QA Manager\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "DELETE - Delete User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 204 (No Content)\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{userId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "{{userId}}"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Negative_Cases",
+      "item": [
+        {
+          "name": "POST - Register Unsuccessful",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 400 (Bad Request)\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"error === Missing password\", function () {",
+                  "    pm.expect(pm.response.json().error).to.eql(\"Missing password\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"sydney@fife\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST - Login Unsuccessful",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"error === Missing email or username\", function () {",
+                  "    pm.expect(pm.response.json().error).to.eql(\"Missing email or username\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET - User Not Found",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 404 (Not Found)\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test(\"Body la object rong {}\", function () {",
+                  "    pm.expect(pm.response.json()).to.eql({});",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/23",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "23"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-api-key",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  }
+}
