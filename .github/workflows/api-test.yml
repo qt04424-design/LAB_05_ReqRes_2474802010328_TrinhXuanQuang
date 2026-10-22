@@ -25,7 +25,7 @@ jobs:
           REQRES_API_KEY: ${{ secrets.REQRES_API_KEY }}
         run: |
           newman run TrinhXuanQuang_2474802010328_ReqRes.postman_collection.json \
-            -e ReqRes_Environment.json \
+            -e 2474802010328_TrinhXuanQuang_ReqRes.postman_environment.json \
             -d users.csv \
             --env-var "apiKey=$REQRES_API_KEY" \
             --reporters cli,htmlextra \
