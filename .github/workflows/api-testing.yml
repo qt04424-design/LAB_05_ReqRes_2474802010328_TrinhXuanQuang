@@ -26,6 +26,7 @@ jobs:
         run: |
           newman run ReqRes_Collection.json \
             -e ReqRes_Environment.json \
+            --env-var "baseUrl=https://reqres.in" \
             --reporters cli,htmlextra \
             --reporter-htmlextra-export report.html
 
