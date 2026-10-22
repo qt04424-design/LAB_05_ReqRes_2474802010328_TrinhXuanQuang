@@ -1,0 +1,312 @@
+{
+  "info": {
+    "_postman_id": "51b5e087-999b-4cb6-bec2-7035cae5706e",
+    "name": "TrinhXuanQuang_2474802010328_ReqRes",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "59134757",
+    "_collection_link": "https://go.postman.co/collection/59134757-51b5e087-999b-4cb6-bec2-7035cae5706e?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Positive_Cases",
+      "item": [
+        {
+          "name": "Request 2 - Create User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Check name and job in response\", function () {\r\n    var jsonData = pm.response.json();\r\n    // Kiểm tra trực tiếp với chuỗi bạn đã nhập ở Body\r\n    pm.expect(jsonData.name).to.eql(\"name\");\r\n    pm.expect(jsonData.job).to.eql(\"job\");\r\n});\r\n\r\npm.test(\"Extract and set userId\", function () {\r\n    var jsonData = pm.response.json();\r\n    pm.environment.set(\"userId\", jsonData.id);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "free_user_3L2mhMOhpigfKfN2ixrzvXdruFY"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"name\",\r\n    \"job\": \"job\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://reqres.in/api/users",
+              "protocol": "https",
+              "host": [
+                "reqres",
+                "in"
+              ],
+              "path": [
+                "api",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Request 3 -  Single User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Kiểm tra Status code là 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Kiểm tra id bằng 2 và email chứa @reqres.in\", function () {\r\n    var jsonData = pm.response.json();\r\n    pm.expect(jsonData.data.id).to.eql(2);\r\n    pm.expect(jsonData.data.email).to.include(\"@reqres.in\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "free_user_3L2mhMOhpigfKfN2ixrzvXdruFY"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/users/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Request 4 - Update User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r\npm.test(\"co updatedAt\", () => pm.expect(pm.response.json()).to.have.property(\"updatedAt\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "free_user_3L2mhMOhpigfKfN2ixrzvXdruFY"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n \"name\": \"An Nguyen Updated\",\r\n \"job\": \"QA Manager\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/users/3",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Request 5 -  Delete User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 204\", () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "free_user_3L2mhMOhpigfKfN2ixrzvXdruFY"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/4?",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "4"
+              ],
+              "query": [
+                {
+                  "key": null,
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Negative_Cases",
+      "item": [
+        {
+          "name": "Request 7 - Login Unsuccessful",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 400\", () => pm.response.to.have.status(400));\r\npm.test(\"Missing email or username\", () => pm.expect(pm.response.json().error).to.eql(\"Missing email or username\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "free_user_3L2mhMOhpigfKfN2ixrzvXdruFY"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Request 8 - User Not Found",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 404\", () => pm.response.to.have.status(404));\r\npm.test(\"Body rong\", () => pm.expect(pm.response.json()).to.eql({}));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "free_user_3L2mhMOhpigfKfN2ixrzvXdruFY"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/23",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "23"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Request 6 - Negative_Cases",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 400\", () => pm.response.to.have.status(400));\r\npm.test(\"Missing password\", () => pm.expect(pm.response.json().error).to.eql(\"Missing password\"));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "free_user_3L2mhMOhpigfKfN2ixrzvXdruFY"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"email\":\"sydney@fife\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/register",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
